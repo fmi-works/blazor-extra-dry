@@ -20,7 +20,7 @@
             @foreach(var line in group.Lines) {
                 <div class="line properties @redundant">
                     @foreach(var property in line.FormProperties) {
-                        <DryInput Model="@line.Model" Property="@property" />
+                        <DryInput Model="@line.Model" Property="@property" OnValidationChanged="@OnValidationChanged" />
                     }
                     @foreach(var command in line.Commands) {
                         if(command == Internal.FormCommand.AddNew) {

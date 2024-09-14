@@ -17,14 +17,14 @@
                 <div class="@ModelNameSlug fixed-fieldsets">
                     @foreach(var fieldset in FormDescription?.Fieldsets?.Take(FixedFieldsets) ?? Array.Empty<FormFieldset>()) {
                         <CascadingValue Value="@fieldset">
-                            <DryFieldset T="@T" />
+                            <DryFieldset T="@T" OnValidationChanged="@ValidationChanged" />
                         </CascadingValue>
                     }
                 </div>
                 <div class="@ModelNameSlug variable-fieldsets">
                     @foreach(var fieldset in FormDescription?.Fieldsets?.Skip(FixedFieldsets) ?? Array.Empty<FormFieldset>()) {
                         <CascadingValue Value="@fieldset">
-                            <DryFieldset T="@T" />
+                            <DryFieldset T="@T" OnValidationChanged="@ValidationChanged"/>
                         </CascadingValue>
                     }
                     <div class="content">
@@ -33,7 +33,7 @@
                 </div>
                 <ValidationBoundary>
                     <div class="@ModelNameSlug entity-actions">
-                        <DryButtonBar Commands="@Description?.Commands" Target="@Model" />
+                        <DryButtonBar Commands="@Description?.Commands" Target="@Model" PreClickCheck="@PreSubmissionCheck" />
                     </div>
                 </ValidationBoundary>
             }

@@ -37,6 +37,13 @@ public partial class DryInput<T>
     [Inject]
     private ILogger<DryInput<T>> Logger { get; set; } = null!;
 
+    /// <summary>
+    /// Event that is raised when the input is validated using internal rules. Does not check
+    /// global rules that might be set on the model using data annotations.
+    /// </summary>
+    [Parameter]
+    public EventCallback<ValidationEventArgs> OnValidationChanged { get; set; }
+
     protected async override Task OnInitializedAsync()
     {
         if(Property.Rules?.UpdateAction == RuleAction.Block) {
@@ -176,10 +183,10 @@ public partial class DryInput<T>
         }
     }
 
-    private Task ValidationChanged(ValidationEventArgs validation)
+    private async Task ValidationChanged(ValidationEventArgs validation)
     {
         UpdateValidationUI(validation.IsValid, validation.Message);
-        return Task.CompletedTask;
+        await OnValidationChanged.InvokeAsync(validation);        
     }
 
     private void UpdateValidationUI(bool valid, string message)
@@ -189,5 +196,4 @@ public partial class DryInput<T>
         Valid = valid;
         StateHasChanged();
     }
-
 }

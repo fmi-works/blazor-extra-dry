@@ -26,6 +26,12 @@ public partial class DryButtonBar : ComponentBase {
     [Parameter]
     public string? Category { get; set; }
 
+    /// <summary>
+    /// A function that is called before the click action of a button is executed. Used for pre-execution validation.
+    /// </summary>
+    [Parameter]
+    public Action<CommandContext>? PreClickCheck { get; set; }
+
     private ViewModelDescription? Description { get; set; }
 
     protected override void OnParametersSet()
@@ -39,5 +45,4 @@ public partial class DryButtonBar : ComponentBase {
     private IEnumerable<CommandInfo> SelectCommands(CommandContext context) => Commands
         .Where(e => e.Context == context)
         .Where(e => Category == null || Category == e.Category);
-
 }

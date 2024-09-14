@@ -28,6 +28,13 @@ public partial class DryFieldset<T> : ComponentBase, IExtraDryComponent {
     [CascadingParameter]
     internal FormFieldset FormFieldset { get; set; } = null!;
 
+    /// <summary>
+    /// Event that is raised when the input is validated using internal rules. Does not check
+    /// global rules that might be set on the model using data annotations.
+    /// </summary>
+    [Parameter]
+    public EventCallback<ValidationEventArgs> OnValidationChanged { get; set; }
+
     private string CssClasses => DataConverter.JoinNonEmpty(" ", "dry-fieldset", Form.ModelNameSlug, FormFieldset.CssClass, CssClass);
 
     private CommandInfo AddNewCommand =>
